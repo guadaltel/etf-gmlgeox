@@ -17,13 +17,16 @@ import org.deegree.geometry.validation.GeometryValidator;
 import org.deegree.gml.GMLInputFactory;
 import org.deegree.gml.GMLStreamReader;
 import org.deegree.gml.GMLVersion;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.ElementHandler;
 import org.dom4j.ElementPath;
 import org.dom4j.Namespace;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.text.Document;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -131,6 +134,8 @@ public class GeometryElementHandler implements ElementHandler {
 					LOGGER.error("Unexpected error detected while validating geometry", e);
 				} catch (UnknownCRSException e) {
 					LOGGER.error("Unexpected error detected while validating geometry", e);
+				} catch (DocumentException e) {
+					LOGGER.error("Unexpected error detected while validating geometry", e);
 				}
 			} else {
 				LOGGER.trace("Element {} is part of another geometry", nodeName);
@@ -139,9 +144,16 @@ public class GeometryElementHandler implements ElementHandler {
 	}
 
 	private void validate(ValidatorContext validatorContext, Element element)
-			throws XMLParsingException, UnknownCRSException {
-
-		Namespace namespace = element.getNamespace();
+			throws XMLParsingException, UnknownCRSException, DocumentException {
+		
+		String dimension = element.attributeValue("srsDimension");
+		String originalElement = element.asXML();
+		originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
+		SAXReader modifiedReader = new SAXReader();
+		org.dom4j.Document modifiedDocument = modifiedReader.read(originalElement);
+		Element modifiedElement = modifiedDocument.getRootElement();
+		
+		Namespace namespace = modifiedElement.getNamespace();
 		String namespaceURI = namespace == null ? null : namespace.getURI();
 
 		if (namespace == null || (!isGML32Namespace(namespaceURI) && !isGML31Namespace(namespaceURI))) {
@@ -167,7 +179,7 @@ public class GeometryElementHandler implements ElementHandler {
 		}
 
 		try {
-			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(element.asXML().getBytes());
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(modifiedElement.asXML().getBytes());
 
 			XMLStreamReader xmlStream = XMLInputFactory.newInstance().createXMLStreamReader(byteArrayInputStream);
 
@@ -192,7 +204,7 @@ public class GeometryElementHandler implements ElementHandler {
 
 			org.deegree.geometry.Geometry geom = gmlStream.readGeometry();
 
-			GMLValidationEventHandler eventHandler = new GMLValidationEventHandler(validatorContext, element,
+			GMLValidationEventHandler eventHandler = new GMLValidationEventHandler(validatorContext, modifiedElement,
 					gmlVersion == GMLVersion.GML_31);
 
 			GeometryValidator validator = new GeometryValidator(eventHandler);
@@ -203,14 +215,14 @@ public class GeometryElementHandler implements ElementHandler {
 			if (isValid) {
 				// Call JTS based validation as long as Deegree3 is still not
 				// complete enough.
-				handleDeegree3GMLJTSValidation(geom, element);
+				handleDeegree3GMLJTSValidation(geom, modifiedElement);
 			}
 
 		} catch (XMLStreamException e) {
 
-			String currentGmlId = Dom4JHelper.findGmlId(element);
+			String currentGmlId = Dom4JHelper.findGmlId(modifiedElement);
 
-			String message = getLocationDescription(element, currentGmlId) + ": " + e.getMessage();
+			String message = getLocationDescription(modifiedElement, currentGmlId) + ": " + e.getMessage();
 
 			validatorContext.addError(message, new IdErrorLocation(currentGmlId));
 
@@ -223,9 +235,9 @@ public class GeometryElementHandler implements ElementHandler {
 					ValidatorMessageBundle.getMessage("validator.core.validation.geometry.unknown-exception"));
 
 		} catch (Exception e) {
-			String currentGmlId = Dom4JHelper.findGmlId(element);
+			String currentGmlId = Dom4JHelper.findGmlId(modifiedElement);
 
-			String message = getLocationDescription(element, currentGmlId) + ": " + e.getMessage();
+			String message = getLocationDescription(modifiedElement, currentGmlId) + ": " + e.getMessage();
 
 			validatorContext.addError(message, new IdErrorLocation(currentGmlId));
 
