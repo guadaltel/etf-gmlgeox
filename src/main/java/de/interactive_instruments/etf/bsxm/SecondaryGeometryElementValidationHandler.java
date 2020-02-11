@@ -16,6 +16,7 @@
 package de.interactive_instruments.etf.bsxm;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.util.*;
 
 import javax.xml.stream.FactoryConfigurationError;
@@ -47,12 +48,15 @@ import org.deegree.geometry.standard.points.PointsList;
 import org.deegree.gml.GMLInputFactory;
 import org.deegree.gml.GMLStreamReader;
 import org.deegree.gml.GMLVersion;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.ElementHandler;
 import org.dom4j.ElementPath;
 import org.dom4j.Namespace;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 /**
  * NOTE: Implementation is based on Geonovum's GeometryElementHandler.
@@ -154,6 +158,8 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
                     LOGGER.error("Unexpected error detected while validating geometry", e);
                 } catch (UnknownCRSException e) {
                     LOGGER.error("Unexpected error detected while validating geometry", e);
+                } catch (DocumentException e) {
+                    LOGGER.error("Unexpected error detected while validating geometry", e);
                 }
             } else {
                 LOGGER.trace("Element {} is part of another geometry", nodeName);
@@ -162,9 +168,15 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
     }
 
     private void validate(ValidatorContext validatorContext, Element element)
-            throws XMLParsingException, UnknownCRSException {
-
-        Namespace namespace = element.getNamespace();
+            throws XMLParsingException, UnknownCRSException, DocumentException {
+    	String dimension = element.attributeValue("srsDimension");
+		String originalElement = element.asXML();
+		String modifiedXML =originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
+		SAXReader modifiedReader = new SAXReader();
+		org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( modifiedXML ) ));
+		Element modifiedElement = modifiedDocument.getRootElement();
+		
+        Namespace namespace = modifiedElement.getNamespace();
         String namespaceURI = namespace == null ? null : namespace.getURI();
 
         if (namespace == null
@@ -191,7 +203,7 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
         }
 
         try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(element.asXML().getBytes());
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(modifiedElement.asXML().getBytes());
 
             XMLStreamReader xmlStream = XMLInputFactory.newInstance().createXMLStreamReader(byteArrayInputStream);
 
@@ -236,9 +248,9 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
 
         } catch (XMLStreamException e) {
 
-            String currentGmlId = Dom4JHelper.findGmlId(element);
+            String currentGmlId = Dom4JHelper.findGmlId(modifiedElement);
 
-            String message = getLocationDescription(element, currentGmlId) + ": " + e.getMessage();
+            String message = getLocationDescription(modifiedElement, currentGmlId) + ": " + e.getMessage();
 
             validatorContext.addError(message, new IdErrorLocation(currentGmlId));
 
@@ -251,9 +263,9 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
                     ValidatorMessageBundle.getMessage("validator.core.validation.geometry.unknown-exception"));
 
         } catch (Exception e) {
-            String currentGmlId = Dom4JHelper.findGmlId(element);
+            String currentGmlId = Dom4JHelper.findGmlId(modifiedElement);
 
-            String message = getLocationDescription(element, currentGmlId) + ": " + e.getMessage();
+            String message = getLocationDescription(modifiedElement, currentGmlId) + ": " + e.getMessage();
 
             validatorContext.addError(message, new IdErrorLocation(currentGmlId));
 

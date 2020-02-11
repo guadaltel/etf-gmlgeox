@@ -150,9 +150,9 @@ public class GeometryElementHandler implements ElementHandler {
 		
 		String dimension = element.attributeValue("srsDimension");
 		String originalElement = element.asXML();
-		originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
+		String modifiedXML =originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
 		SAXReader modifiedReader = new SAXReader();
-		org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( originalElement ) ));
+		org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( modifiedXML ) ));
 		Element modifiedElement = modifiedDocument.getRootElement();
 		
 		Namespace namespace = modifiedElement.getNamespace();
