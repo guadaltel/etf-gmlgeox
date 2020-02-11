@@ -169,12 +169,16 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
 
     private void validate(ValidatorContext validatorContext, Element element)
             throws XMLParsingException, UnknownCRSException, DocumentException {
-    	String dimension = element.attributeValue("srsDimension");
-		String originalElement = element.asXML();
-		String modifiedXML =originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
-		SAXReader modifiedReader = new SAXReader();
-		org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( modifiedXML ) ));
-		Element modifiedElement = modifiedDocument.getRootElement();
+    	
+    	Element modifiedElement = element;
+		String dimension = element.attributeValue("srsDimension");
+		if (!(dimension == null)) {
+			String originalElement = element.asXML();
+			String modifiedXML =originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
+			SAXReader modifiedReader = new SAXReader();
+			org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( modifiedXML ) ));
+			modifiedElement = modifiedDocument.getRootElement();
+		}
 		
         Namespace namespace = modifiedElement.getNamespace();
         String namespaceURI = namespace == null ? null : namespace.getURI();
