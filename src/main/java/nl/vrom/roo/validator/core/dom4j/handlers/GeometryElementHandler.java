@@ -25,6 +25,7 @@ import org.dom4j.Namespace;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 import javax.swing.text.Document;
 import javax.xml.stream.FactoryConfigurationError;
@@ -32,6 +33,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
@@ -150,7 +152,7 @@ public class GeometryElementHandler implements ElementHandler {
 		String originalElement = element.asXML();
 		originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
 		SAXReader modifiedReader = new SAXReader();
-		org.dom4j.Document modifiedDocument = modifiedReader.read(originalElement);
+		org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( originalElement ) ));
 		Element modifiedElement = modifiedDocument.getRootElement();
 		
 		Namespace namespace = modifiedElement.getNamespace();
