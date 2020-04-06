@@ -153,6 +153,7 @@ public class GeometryElementHandler implements ElementHandler {
 		if (!(dimension == null)) {
 			String originalElement = element.asXML();
 			String modifiedXML =originalElement.replace("<gml:posList>", "<gml:posList srsDimension=\""+dimension+"\">");
+			modifiedXML =originalElement.replace("<gml:pos>", "<gml:pos srsDimension=\""+dimension+"\">");
 			SAXReader modifiedReader = new SAXReader();
 			org.dom4j.Document modifiedDocument = modifiedReader.read(new InputSource( new StringReader( modifiedXML ) ));
 			modifiedElement = modifiedDocument.getRootElement();
