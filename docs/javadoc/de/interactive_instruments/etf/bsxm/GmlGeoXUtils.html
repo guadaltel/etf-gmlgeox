@@ -133,7 +133,7 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#gmlGeoX">gmlGeoX</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><code>protected com.vividsolutions.jts.geom.GeometryFactory</code></td>
+<td class="colFirst"><code>protected org.locationtech.jts.geom.GeometryFactory</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#jtsFactory">jtsFactory</a></span></code>
 <div class="block">Used to built JTS geometries.</div>
 </td>
@@ -175,12 +175,12 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#emptyJTSGeometry--">emptyJTSGeometry</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>protected boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#isGeometryCollectionButNotASubtype-com.vividsolutions.jts.geom.Geometry-">isGeometryCollectionButNotASubtype</a></span>(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#isGeometryCollectionButNotASubtype-org.locationtech.jts.geom.Geometry-">isGeometryCollectionButNotASubtype</a></span>(org.locationtech.jts.geom.Geometry&nbsp;geom)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -203,52 +203,52 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i6" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#singleObjectToJTSGeometry-java.lang.Object-">singleObjectToJTSGeometry</a></span>(java.lang.Object&nbsp;o)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>java.util.List&lt;com.vividsolutions.jts.geom.Geometry&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toFlattenedJTSGeometryCollection-com.vividsolutions.jts.geom.Geometry-">toFlattenedJTSGeometryCollection</a></span>(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</code>
+<td class="colFirst"><code>java.util.List&lt;org.locationtech.jts.geom.Geometry&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toFlattenedJTSGeometryCollection-org.locationtech.jts.geom.Geometry-">toFlattenedJTSGeometryCollection</a></span>(org.locationtech.jts.geom.Geometry&nbsp;geom)</code>
 <div class="block">Adds a geometry to a collection.</div>
 </td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>protected void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toFlattenedJTSGeometryCollection-com.vividsolutions.jts.geom.GeometryCollection-java.util.List-">toFlattenedJTSGeometryCollection</a></span>(com.vividsolutions.jts.geom.GeometryCollection&nbsp;geomColl,
-                                java.util.List&lt;com.vividsolutions.jts.geom.Geometry&gt;&nbsp;geoms)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toFlattenedJTSGeometryCollection-org.locationtech.jts.geom.GeometryCollection-java.util.List-">toFlattenedJTSGeometryCollection</a></span>(org.locationtech.jts.geom.GeometryCollection&nbsp;geomColl,
+                                java.util.List&lt;org.locationtech.jts.geom.Geometry&gt;&nbsp;geoms)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSGeometry-org.basex.query.value.node.ANode-">toJTSGeometry</a></span>(org.basex.query.value.node.ANode&nbsp;node)</code>
 <div class="block">Computes a JTS geometry from the given node (which must represent a GML
  geometry).</div>
 </td>
 </tr>
 <tr id="i10" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSGeometry-org.deegree.geometry.Geometry-">toJTSGeometry</a></span>(org.deegree.geometry.Geometry&nbsp;geom)</code>
 <div class="block">Computes a JTS geometry from the given deegree geometry.</div>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSGeometry-java.lang.Object-">toJTSGeometry</a></span>(java.lang.Object&nbsp;o)</code>&nbsp;</td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.GeometryCollection</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSGeometryCollection-java.util.List-boolean-">toJTSGeometryCollection</a></span>(java.util.List&lt;com.vividsolutions.jts.geom.Geometry&gt;&nbsp;gList,
+<td class="colFirst"><code>org.locationtech.jts.geom.GeometryCollection</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSGeometryCollection-java.util.List-boolean-">toJTSGeometryCollection</a></span>(java.util.List&lt;org.locationtech.jts.geom.Geometry&gt;&nbsp;gList,
                        boolean&nbsp;forceGeometryCollection)</code>
 <div class="block">Creates a JTS GeometryCollection from the list of JTS geometry objects.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Polygon</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSPolygon-com.vividsolutions.jts.geom.LineString-">toJTSPolygon</a></span>(com.vividsolutions.jts.geom.LineString&nbsp;exterior)</code>
+<td class="colFirst"><code>org.locationtech.jts.geom.Polygon</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSPolygon-org.locationtech.jts.geom.LineString-">toJTSPolygon</a></span>(org.locationtech.jts.geom.LineString&nbsp;exterior)</code>
 <div class="block">Creates a JTS Polygon from the given JTS LineString.</div>
 </td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Polygon</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Polygon</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoXUtils.html#toJTSPolygon-org.deegree.geometry.primitive.patches.PolygonPatch-">toJTSPolygon</a></span>(org.deegree.geometry.primitive.patches.PolygonPatch&nbsp;patch)</code>
 <div class="block">Creates a JTS Polygon from the given deegree PolygonPatch.</div>
 </td>
@@ -299,7 +299,7 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>jtsFactory</h4>
-<pre>protected&nbsp;com.vividsolutions.jts.geom.GeometryFactory jtsFactory</pre>
+<pre>protected&nbsp;org.locationtech.jts.geom.GeometryFactory jtsFactory</pre>
 <div class="block">Used to built JTS geometries.</div>
 </li>
 </ul>
@@ -340,7 +340,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toJTSPolygon</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Polygon&nbsp;toJTSPolygon(org.deegree.geometry.primitive.patches.PolygonPatch&nbsp;patch)</pre>
+<pre>public&nbsp;org.locationtech.jts.geom.Polygon&nbsp;toJTSPolygon(org.deegree.geometry.primitive.patches.PolygonPatch&nbsp;patch)</pre>
 <div class="block">Creates a JTS Polygon from the given deegree PolygonPatch.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -349,13 +349,13 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="toJTSPolygon-com.vividsolutions.jts.geom.LineString-">
+<a name="toJTSPolygon-org.locationtech.jts.geom.LineString-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>toJTSPolygon</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Polygon&nbsp;toJTSPolygon(com.vividsolutions.jts.geom.LineString&nbsp;exterior)</pre>
+<pre>public&nbsp;org.locationtech.jts.geom.Polygon&nbsp;toJTSPolygon(org.locationtech.jts.geom.LineString&nbsp;exterior)</pre>
 <div class="block">Creates a JTS Polygon from the given JTS LineString.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -370,7 +370,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toJTSGeometryCollection</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.GeometryCollection&nbsp;toJTSGeometryCollection(java.util.List&lt;com.vividsolutions.jts.geom.Geometry&gt;&nbsp;gList,
+<pre>public&nbsp;org.locationtech.jts.geom.GeometryCollection&nbsp;toJTSGeometryCollection(java.util.List&lt;org.locationtech.jts.geom.Geometry&gt;&nbsp;gList,
                                                                               boolean&nbsp;forceGeometryCollection)</pre>
 <div class="block">Creates a JTS GeometryCollection from the list of JTS geometry objects.
  If the geometries are homogeneous, ie only points, line strings, or
@@ -391,7 +391,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toJTSGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;toJTSGeometry(org.deegree.geometry.Geometry&nbsp;geom)
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;toJTSGeometry(org.deegree.geometry.Geometry&nbsp;geom)
                                                    throws java.lang.Exception</pre>
 <div class="block">Computes a JTS geometry from the given deegree geometry.
 
@@ -497,7 +497,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toJTSGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;toJTSGeometry(org.basex.query.value.node.ANode&nbsp;node)
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;toJTSGeometry(org.basex.query.value.node.ANode&nbsp;node)
                                                    throws java.lang.Exception</pre>
 <div class="block">Computes a JTS geometry from the given node (which must represent a GML
  geometry).
@@ -519,7 +519,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>toJTSGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;toJTSGeometry(java.lang.Object&nbsp;o)
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;toJTSGeometry(java.lang.Object&nbsp;o)
                                                    throws java.lang.Exception</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -533,7 +533,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>singleObjectToJTSGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;singleObjectToJTSGeometry(java.lang.Object&nbsp;o)
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;singleObjectToJTSGeometry(java.lang.Object&nbsp;o)
                                                                throws java.lang.Exception</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -602,16 +602,16 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>emptyJTSGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;emptyJTSGeometry()</pre>
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;emptyJTSGeometry()</pre>
 </li>
 </ul>
-<a name="toFlattenedJTSGeometryCollection-com.vividsolutions.jts.geom.Geometry-">
+<a name="toFlattenedJTSGeometryCollection-org.locationtech.jts.geom.Geometry-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>toFlattenedJTSGeometryCollection</h4>
-<pre>public&nbsp;java.util.List&lt;com.vividsolutions.jts.geom.Geometry&gt;&nbsp;toFlattenedJTSGeometryCollection(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</pre>
+<pre>public&nbsp;java.util.List&lt;org.locationtech.jts.geom.Geometry&gt;&nbsp;toFlattenedJTSGeometryCollection(org.locationtech.jts.geom.Geometry&nbsp;geom)</pre>
 <div class="block">Adds a geometry to a collection. If the geometry is a GeometryCollection
  (but not a MultiPoint, -LineString, or -Polygon) its members are added
  (recursively scanning for GeometryCollections). Spatial relationship
@@ -624,23 +624,23 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="toFlattenedJTSGeometryCollection-com.vividsolutions.jts.geom.GeometryCollection-java.util.List-">
+<a name="toFlattenedJTSGeometryCollection-org.locationtech.jts.geom.GeometryCollection-java.util.List-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>toFlattenedJTSGeometryCollection</h4>
-<pre>protected&nbsp;void&nbsp;toFlattenedJTSGeometryCollection(com.vividsolutions.jts.geom.GeometryCollection&nbsp;geomColl,
-                                                java.util.List&lt;com.vividsolutions.jts.geom.Geometry&gt;&nbsp;geoms)</pre>
+<pre>protected&nbsp;void&nbsp;toFlattenedJTSGeometryCollection(org.locationtech.jts.geom.GeometryCollection&nbsp;geomColl,
+                                                java.util.List&lt;org.locationtech.jts.geom.Geometry&gt;&nbsp;geoms)</pre>
 </li>
 </ul>
-<a name="isGeometryCollectionButNotASubtype-com.vividsolutions.jts.geom.Geometry-">
+<a name="isGeometryCollectionButNotASubtype-org.locationtech.jts.geom.Geometry-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isGeometryCollectionButNotASubtype</h4>
-<pre>protected&nbsp;boolean&nbsp;isGeometryCollectionButNotASubtype(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</pre>
+<pre>protected&nbsp;boolean&nbsp;isGeometryCollectionButNotASubtype(org.locationtech.jts.geom.Geometry&nbsp;geom)</pre>
 </li>
 </ul>
 </li>
