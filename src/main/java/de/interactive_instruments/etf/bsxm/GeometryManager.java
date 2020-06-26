@@ -19,9 +19,9 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.RTree;
-import com.vividsolutions.jts.geom.Geometry;
 
 import org.basex.query.QueryException;
+import org.locationtech.jts.geom.Geometry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +71,7 @@ class GeometryManager {
      *            the id for which the geometry should be retrieved, typically a gml:id of a GML feature element
      * @return the geometry of the indexed node, or null if no geometry was found
      */
-    public com.vividsolutions.jts.geom.Geometry get(String id) {
+    public org.locationtech.jts.geom.Geometry get(String id) {
         return geometryCache.getIfPresent(id);
     }
 
@@ -101,7 +101,7 @@ class GeometryManager {
      * @param geom
      *            the geometry to cache
      */
-    public void put(String id, com.vividsolutions.jts.geom.Geometry geom) {
+    public void put(String id, org.locationtech.jts.geom.Geometry geom) {
         geometryCache.put(id, geom);
     }
 

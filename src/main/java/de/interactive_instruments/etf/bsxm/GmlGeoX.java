@@ -35,9 +35,6 @@ import nl.vrom.roo.validator.core.dom4j.handlers.GeometryElementHandler;
 
 import com.github.davidmoten.rtree.geometry.Geometries;
 import com.google.common.base.Joiner;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.util.GeometryExtracter;
-import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
 
 import org.apache.commons.io.FileUtils;
 import org.basex.api.dom.BXElem;
@@ -56,6 +53,9 @@ import org.deegree.cs.CRSCodeType;
 import org.deegree.cs.persistence.CRSManager;
 import org.deegree.geometry.Geometry;
 import org.dom4j.io.SAXReader;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.util.GeometryExtracter;
+import org.locationtech.jts.operation.union.CascadedPolygonUnion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -723,7 +723,7 @@ public class GmlGeoX extends QueryModule {
         return null;
     }
 
-    public com.vividsolutions.jts.geom.Geometry parseGeometry(Value v) throws QueryException {
+    public org.locationtech.jts.geom.Geometry parseGeometry(Value v) throws QueryException {
 
         try {
             if (v instanceof ANode) {
@@ -732,9 +732,9 @@ public class GmlGeoX extends QueryModule {
 
                 return geoutils.toJTSGeometry(node);
 
-            } else if (v instanceof Jav && ((Jav) v).toJava() instanceof com.vividsolutions.jts.geom.Geometry) {
+            } else if (v instanceof Jav && ((Jav) v).toJava() instanceof org.locationtech.jts.geom.Geometry) {
 
-                return (com.vividsolutions.jts.geom.Geometry) ((Jav) v).toJava();
+                return (org.locationtech.jts.geom.Geometry) ((Jav) v).toJava();
 
             } else {
                 throw new IllegalArgumentException("First argument is neither a single node nor a JTS geometry.");
@@ -749,7 +749,7 @@ public class GmlGeoX extends QueryModule {
 
         try {
 
-            com.vividsolutions.jts.geom.Geometry geom1, geom2;
+            org.locationtech.jts.geom.Geometry geom1, geom2;
 
             /* We require that no basex value with multiple items is provided, because the developer must explicitly state the desired match semantics for cases in which one or both arguments is a collection of items. */
             geom1 = geoutils.singleObjectToJTSGeometry(arg1);
@@ -764,8 +764,8 @@ public class GmlGeoX extends QueryModule {
         }
     }
 
-    private boolean applySpatialRelationshipOperator(com.vividsolutions.jts.geom.Geometry geom1,
-            com.vividsolutions.jts.geom.Geometry geom2, SpatialRelOp op) {
+    private boolean applySpatialRelationshipOperator(org.locationtech.jts.geom.Geometry geom1,
+            org.locationtech.jts.geom.Geometry geom2, SpatialRelOp op) {
 
         switch (op) {
         case CONTAINS:
@@ -800,20 +800,20 @@ public class GmlGeoX extends QueryModule {
 
             } else {
 
-                com.vividsolutions.jts.geom.Geometry geom1, geom2;
+                org.locationtech.jts.geom.Geometry geom1, geom2;
 
                 geom1 = geoutils.toJTSGeometry(arg1);
                 geom2 = geoutils.toJTSGeometry(arg2);
 
-                List<com.vividsolutions.jts.geom.Geometry> gc1, gc2;
+                List<org.locationtech.jts.geom.Geometry> gc1, gc2;
 
                 gc1 = geoutils.toFlattenedJTSGeometryCollection(geom1);
                 gc2 = geoutils.toFlattenedJTSGeometryCollection(geom2);
 
                 boolean allMatch = true;
 
-                outer: for (com.vividsolutions.jts.geom.Geometry g1 : gc1) {
-                    for (com.vividsolutions.jts.geom.Geometry g2 : gc2) {
+                outer: for (org.locationtech.jts.geom.Geometry g1 : gc1) {
+                    for (org.locationtech.jts.geom.Geometry g2 : gc2) {
 
                         if (matchAll) {
 
@@ -1074,19 +1074,19 @@ public class GmlGeoX extends QueryModule {
 
     @Requires(Permission.NONE)
     @Deterministic
-    public com.vividsolutions.jts.geom.Geometry union(Object arg1, Object arg2) throws QueryException {
+    public org.locationtech.jts.geom.Geometry union(Object arg1, Object arg2) throws QueryException {
 
         try {
 
-            List<com.vividsolutions.jts.geom.Geometry> geoms = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+            List<org.locationtech.jts.geom.Geometry> geoms = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
-            com.vividsolutions.jts.geom.Geometry geom1 = geoutils.toJTSGeometry(arg1);
+            org.locationtech.jts.geom.Geometry geom1 = geoutils.toJTSGeometry(arg1);
             geoms.add(geom1);
 
-            com.vividsolutions.jts.geom.Geometry geom2 = geoutils.toJTSGeometry(arg2);
+            org.locationtech.jts.geom.Geometry geom2 = geoutils.toJTSGeometry(arg2);
             geoms.add(geom2);
 
-            com.vividsolutions.jts.geom.GeometryCollection gc = geoutils.toJTSGeometryCollection(geoms, true);
+            org.locationtech.jts.geom.GeometryCollection gc = geoutils.toJTSGeometryCollection(geoms, true);
 
             return gc.union();
 
@@ -1097,16 +1097,16 @@ public class GmlGeoX extends QueryModule {
 
     @Requires(Permission.NONE)
     @Deterministic
-    public com.vividsolutions.jts.geom.Geometry union(Object arg) throws QueryException {
+    public org.locationtech.jts.geom.Geometry union(Object arg) throws QueryException {
 
         try {
 
-            List<com.vividsolutions.jts.geom.Geometry> geoms = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+            List<org.locationtech.jts.geom.Geometry> geoms = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
-            com.vividsolutions.jts.geom.Geometry geom = geoutils.toJTSGeometry(arg);
+            org.locationtech.jts.geom.Geometry geom = geoutils.toJTSGeometry(arg);
             geoms.add(geom);
 
-            com.vividsolutions.jts.geom.GeometryCollection gc = geoutils.toJTSGeometryCollection(geoms, true);
+            org.locationtech.jts.geom.GeometryCollection gc = geoutils.toJTSGeometryCollection(geoms, true);
 
             return gc.union();
 
@@ -1117,7 +1117,7 @@ public class GmlGeoX extends QueryModule {
 
     @Requires(Permission.NONE)
     @Deterministic
-    public boolean isEmpty(com.vividsolutions.jts.geom.Geometry geom) {
+    public boolean isEmpty(org.locationtech.jts.geom.Geometry geom) {
 
         if (geom == null || geom.isEmpty()) {
             return true;
@@ -1164,19 +1164,19 @@ public class GmlGeoX extends QueryModule {
 
             } else {
 
-                com.vividsolutions.jts.geom.Geometry geom = geoutils.toJTSGeometry(o);
+                org.locationtech.jts.geom.Geometry geom = geoutils.toJTSGeometry(o);
 
-                List<com.vividsolutions.jts.geom.Geometry> gc = geoutils.toFlattenedJTSGeometryCollection(geom);
+                List<org.locationtech.jts.geom.Geometry> gc = geoutils.toFlattenedJTSGeometryCollection(geom);
 
-                for (com.vividsolutions.jts.geom.Geometry g : gc) {
+                for (org.locationtech.jts.geom.Geometry g : gc) {
 
-                    if (g instanceof com.vividsolutions.jts.geom.Point
-                            || g instanceof com.vividsolutions.jts.geom.MultiPoint) {
+                    if (g instanceof org.locationtech.jts.geom.Point
+                            || g instanceof org.locationtech.jts.geom.MultiPoint) {
 
                         /* points are closed by definition (they do not have a boundary) */
 
-                    } else if (g instanceof com.vividsolutions.jts.geom.Polygon
-                            || g instanceof com.vividsolutions.jts.geom.MultiPolygon) {
+                    } else if (g instanceof org.locationtech.jts.geom.Polygon
+                            || g instanceof org.locationtech.jts.geom.MultiPolygon) {
 
                         /* The JTS FAQ contains the following question and answer:
                          *
@@ -1191,18 +1191,18 @@ public class GmlGeoX extends QueryModule {
                             return false;
                         }
 
-                    } else if (g instanceof com.vividsolutions.jts.geom.MultiLineString) {
+                    } else if (g instanceof org.locationtech.jts.geom.MultiLineString) {
 
-                        com.vividsolutions.jts.geom.MultiLineString mls = (com.vividsolutions.jts.geom.MultiLineString) g;
+                        org.locationtech.jts.geom.MultiLineString mls = (org.locationtech.jts.geom.MultiLineString) g;
                         if (!mls.isClosed()) {
                             return false;
                         }
 
-                    } else if (g instanceof com.vividsolutions.jts.geom.LineString) {
+                    } else if (g instanceof org.locationtech.jts.geom.LineString) {
 
                         /* NOTE: LinearRing is a subclass of LineString, and closed by definition */
 
-                        com.vividsolutions.jts.geom.LineString ls = (com.vividsolutions.jts.geom.LineString) g;
+                        org.locationtech.jts.geom.LineString ls = (org.locationtech.jts.geom.LineString) g;
                         if (!ls.isClosed()) {
                             return false;
                         }
@@ -1231,7 +1231,7 @@ public class GmlGeoX extends QueryModule {
      */
     @Requires(Permission.NONE)
     @Deterministic
-    public com.vividsolutions.jts.geom.Geometry holes(com.vividsolutions.jts.geom.Geometry geom) {
+    public org.locationtech.jts.geom.Geometry holes(org.locationtech.jts.geom.Geometry geom) {
 
         if (isEmpty(geom)) {
 
@@ -1239,9 +1239,9 @@ public class GmlGeoX extends QueryModule {
 
         } else {
 
-            List<com.vividsolutions.jts.geom.Polygon> extractedPolygons = new ArrayList<com.vividsolutions.jts.geom.Polygon>();
+            List<org.locationtech.jts.geom.Polygon> extractedPolygons = new ArrayList<org.locationtech.jts.geom.Polygon>();
 
-            GeometryExtracter.extract(geom, com.vividsolutions.jts.geom.Polygon.class, extractedPolygons);
+            GeometryExtracter.extract(geom, org.locationtech.jts.geom.Polygon.class, extractedPolygons);
 
             if (extractedPolygons.isEmpty()) {
 
@@ -1250,17 +1250,17 @@ public class GmlGeoX extends QueryModule {
             } else {
 
                 // get holes as polygons
-                List<com.vividsolutions.jts.geom.Polygon> holes = new ArrayList<com.vividsolutions.jts.geom.Polygon>();
+                List<org.locationtech.jts.geom.Polygon> holes = new ArrayList<org.locationtech.jts.geom.Polygon>();
 
-                for (com.vividsolutions.jts.geom.Polygon polygon : extractedPolygons) {
+                for (org.locationtech.jts.geom.Polygon polygon : extractedPolygons) {
 
                     // check that polygon has holes
                     if (polygon.getNumInteriorRing() > 0) {
 
                         // for each hole, convert it to a polygon
                         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
-                            com.vividsolutions.jts.geom.LineString ls = polygon.getInteriorRingN(i);
-                            com.vividsolutions.jts.geom.Polygon holeAsPolygon = geoutils.toJTSPolygon(ls);
+                            org.locationtech.jts.geom.LineString ls = polygon.getInteriorRingN(i);
+                            org.locationtech.jts.geom.Polygon holeAsPolygon = geoutils.toJTSPolygon(ls);
                             holes.add(holeAsPolygon);
                         }
                     }
@@ -1310,7 +1310,7 @@ public class GmlGeoX extends QueryModule {
 
         try {
 
-            com.vividsolutions.jts.geom.Geometry geom1, geom2;
+            org.locationtech.jts.geom.Geometry geom1, geom2;
 
             /* We require that no basex value with multiple items is provided, because the developer must explicitly state the desired match semantics for cases in which one or both arguments is a collection of items. */
             geom1 = geoutils.singleObjectToJTSGeometry(arg1);
@@ -1354,20 +1354,20 @@ public class GmlGeoX extends QueryModule {
 
             } else {
 
-                com.vividsolutions.jts.geom.Geometry geom1, geom2;
+                org.locationtech.jts.geom.Geometry geom1, geom2;
 
                 geom1 = geoutils.toJTSGeometry(arg1);
                 geom2 = geoutils.toJTSGeometry(arg2);
 
-                List<com.vividsolutions.jts.geom.Geometry> gc1, gc2;
+                List<org.locationtech.jts.geom.Geometry> gc1, gc2;
 
                 gc1 = geoutils.toFlattenedJTSGeometryCollection(geom1);
                 gc2 = geoutils.toFlattenedJTSGeometryCollection(geom2);
 
                 boolean allMatch = true;
 
-                outer: for (com.vividsolutions.jts.geom.Geometry g1 : gc1) {
-                    for (com.vividsolutions.jts.geom.Geometry g2 : gc2) {
+                outer: for (org.locationtech.jts.geom.Geometry g1 : gc1) {
+                    for (org.locationtech.jts.geom.Geometry g2 : gc2) {
 
                         if (matchAll) {
 
@@ -1428,14 +1428,14 @@ public class GmlGeoX extends QueryModule {
      */
     @Requires(Permission.NONE)
     @Deterministic
-    public com.vividsolutions.jts.geom.Geometry intersection(final Object geometry1, final Object geometry2)
+    public org.locationtech.jts.geom.Geometry intersection(final Object geometry1, final Object geometry2)
             throws QueryException {
         try {
             if (geometry1 instanceof Empty || geometry2 instanceof Empty) {
                 return geoutils.emptyJTSGeometry();
             } else {
 
-                final com.vividsolutions.jts.geom.Geometry geom1, geom2;
+                final org.locationtech.jts.geom.Geometry geom1, geom2;
                 geom1 = geoutils.toJTSGeometry(geometry1);
                 geom2 = geoutils.toJTSGeometry(geometry2);
                 return geom1.intersection(geom2);
@@ -1463,8 +1463,8 @@ public class GmlGeoX extends QueryModule {
             final Envelope env;
             if (geometry instanceof Empty) {
                 env = geoutils.emptyJTSGeometry().getEnvelopeInternal();
-            } else if (geometry instanceof com.vividsolutions.jts.geom.Geometry) {
-                env = ((com.vividsolutions.jts.geom.Geometry) geometry).getEnvelopeInternal();
+            } else if (geometry instanceof org.locationtech.jts.geom.Geometry) {
+                env = ((org.locationtech.jts.geom.Geometry) geometry).getEnvelopeInternal();
             } else {
                 env = geoutils.toJTSGeometry(geometry).getEnvelopeInternal();
             }
@@ -1642,12 +1642,12 @@ public class GmlGeoX extends QueryModule {
             mgr = new GeometryManager();
 
         if (pre instanceof BigInteger && dbname instanceof String && (id instanceof BXNode || id instanceof String)
-                && (geom instanceof BXElem || geom instanceof com.vividsolutions.jts.geom.Geometry))
+                && (geom instanceof BXElem || geom instanceof org.locationtech.jts.geom.Geometry))
             try {
                 IndexEntry entry = new IndexEntry((String) dbname, ((BigInteger) pre).intValue());
                 String _id = id instanceof String ? (String) id : ((BXNode) id).getNodeValue();
-                com.vividsolutions.jts.geom.Geometry _geom = geom instanceof BXElem
-                        ? geoutils.singleObjectToJTSGeometry(geom) : ((com.vividsolutions.jts.geom.Geometry) geom);
+                org.locationtech.jts.geom.Geometry _geom = geom instanceof BXElem
+                        ? geoutils.singleObjectToJTSGeometry(geom) : ((org.locationtech.jts.geom.Geometry) geom);
                 Envelope env = _geom.getEnvelopeInternal();
                 if (!env.isNull()) {
                     if (env.getHeight() == 0.0 && env.getWidth() == 0.0)
@@ -1699,7 +1699,7 @@ public class GmlGeoX extends QueryModule {
             }
 
             try {
-                final com.vividsolutions.jts.geom.Geometry _geom = geoutils.singleObjectToJTSGeometry(geometry);
+                final org.locationtech.jts.geom.Geometry _geom = geoutils.singleObjectToJTSGeometry(geometry);
                 final Envelope env = _geom.getEnvelopeInternal();
                 if (!env.isNull()) {
                     final IndexEntry entry = new IndexEntry(node);
@@ -1748,7 +1748,7 @@ public class GmlGeoX extends QueryModule {
     @Deprecated
     @Requires(Permission.NONE)
     @Deterministic
-    public com.vividsolutions.jts.geom.Geometry getGeometry(final Object id, final Object defgeom) throws QueryException {
+    public org.locationtech.jts.geom.Geometry getGeometry(final Object id, final Object defgeom) throws QueryException {
         return getOrCacheGeometry(id, defgeom);
     }
 
@@ -1767,7 +1767,7 @@ public class GmlGeoX extends QueryModule {
      */
     @Requires(Permission.NONE)
     @Deterministic
-    public com.vividsolutions.jts.geom.Geometry getOrCacheGeometry(final Object id, final Object defgeom)
+    public org.locationtech.jts.geom.Geometry getOrCacheGeometry(final Object id, final Object defgeom)
             throws QueryException {
         if (debug && ++count2 % 5000 == 0) {
             logMemUsage("GmlGeoX#getGeometry.start " + count2);
@@ -1785,16 +1785,16 @@ public class GmlGeoX extends QueryModule {
             throw new QueryException(
                     "Failure to get geometry. An id uses an incorrect type: " + id.getClass().getCanonicalName());
 
-        com.vividsolutions.jts.geom.Geometry geom = mgr.get(idx);
+        org.locationtech.jts.geom.Geometry geom = mgr.get(idx);
         if (geom == null) {
-            if (!(defgeom instanceof BXElem || defgeom instanceof com.vividsolutions.jts.geom.Geometry)) {
+            if (!(defgeom instanceof BXElem || defgeom instanceof org.locationtech.jts.geom.Geometry)) {
                 throw new QueryException(
                         "Failure to parse geometry. A geometry was not found or uses an incorrect type: "
                                 + defgeom.getClass().getCanonicalName());
             }
             try {
                 geom = defgeom instanceof BXElem ? geoutils.singleObjectToJTSGeometry(defgeom)
-                        : ((com.vividsolutions.jts.geom.Geometry) defgeom);
+                        : ((org.locationtech.jts.geom.Geometry) defgeom);
                 if (geom != null)
                     mgr.put(idx, geom);
             } catch (Exception e) {

@@ -30,10 +30,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.operation.union.CascadedPolygonUnion;
-
 import org.basex.api.dom.BXElem;
 import org.basex.api.dom.BXNode;
 import org.basex.query.QueryException;
@@ -58,6 +54,9 @@ import org.deegree.geometry.standard.AbstractDefaultGeometry;
 import org.deegree.gml.GMLInputFactory;
 import org.deegree.gml.GMLStreamReader;
 import org.deegree.gml.GMLVersion;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.operation.union.CascadedPolygonUnion;
 import org.w3c.dom.Node;
 
 /**
@@ -74,7 +73,7 @@ public class GmlGeoXUtils {
     /**
      * Used to built JTS geometries.
      */
-    protected com.vividsolutions.jts.geom.GeometryFactory jtsFactory = new com.vividsolutions.jts.geom.GeometryFactory();
+    protected org.locationtech.jts.geom.GeometryFactory jtsFactory = new org.locationtech.jts.geom.GeometryFactory();
 
     /**
      * @param gmlGeoX
@@ -95,18 +94,18 @@ public class GmlGeoXUtils {
         Ring exteriorRing = patch.getExteriorRing();
         List<Ring> interiorRings = patch.getInteriorRings();
 
-        com.vividsolutions.jts.geom.LinearRing shell = (com.vividsolutions.jts.geom.LinearRing) ((AbstractDefaultGeometry) exteriorRing)
+        org.locationtech.jts.geom.LinearRing shell = (org.locationtech.jts.geom.LinearRing) ((AbstractDefaultGeometry) exteriorRing)
                 .getJTSGeometry();
-        com.vividsolutions.jts.geom.LinearRing[] holes = null;
+        org.locationtech.jts.geom.LinearRing[] holes = null;
 
         if (interiorRings != null) {
 
-            holes = new com.vividsolutions.jts.geom.LinearRing[interiorRings
+            holes = new org.locationtech.jts.geom.LinearRing[interiorRings
                     .size()];
 
             int i = 0;
             for (Ring ring : interiorRings) {
-                holes[i++] = (com.vividsolutions.jts.geom.LinearRing) ((AbstractDefaultGeometry) ring)
+                holes[i++] = (org.locationtech.jts.geom.LinearRing) ((AbstractDefaultGeometry) ring)
                         .getJTSGeometry();
             }
         }
@@ -121,9 +120,9 @@ public class GmlGeoXUtils {
      * @return
      */
     public Polygon toJTSPolygon(
-            com.vividsolutions.jts.geom.LineString exterior) {
+            org.locationtech.jts.geom.LineString exterior) {
 
-        com.vividsolutions.jts.geom.LinearRing exteriorRing = jtsFactory
+        org.locationtech.jts.geom.LinearRing exteriorRing = jtsFactory
                 .createLinearRing(exterior.getCoordinates());
 
         return jtsFactory.createPolygon(exteriorRing, null);
@@ -137,7 +136,7 @@ public class GmlGeoXUtils {
      * @return a JTS GeometryCollection (empty if the given list is <code>null</code> or empty)
      */
     public GeometryCollection toJTSGeometryCollection(
-            List<com.vividsolutions.jts.geom.Geometry> gList,
+            List<org.locationtech.jts.geom.Geometry> gList,
             boolean forceGeometryCollection) {
 
         if (gList == null || gList.isEmpty()) {
@@ -147,8 +146,8 @@ public class GmlGeoXUtils {
         }
 
         /* Before processing the list of geometries, first remove all empty geometry collections from the list */
-        List<com.vividsolutions.jts.geom.Geometry> gListClean = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
-        for (com.vividsolutions.jts.geom.Geometry g : gList) {
+        List<org.locationtech.jts.geom.Geometry> gListClean = new ArrayList<org.locationtech.jts.geom.Geometry>();
+        for (org.locationtech.jts.geom.Geometry g : gList) {
 
             if (!g.isEmpty())
                 gListClean.add(g);
@@ -163,7 +162,7 @@ public class GmlGeoXUtils {
         } else if (forceGeometryCollection) {
 
             gc = jtsFactory.createGeometryCollection(gListClean
-                    .toArray(new com.vividsolutions.jts.geom.Geometry[gListClean
+                    .toArray(new org.locationtech.jts.geom.Geometry[gListClean
                             .size()]));
 
         } else {
@@ -171,12 +170,12 @@ public class GmlGeoXUtils {
             boolean point = true;
             boolean linestring = true;
             boolean polygon = true;
-            for (com.vividsolutions.jts.geom.Geometry g : gListClean) {
-                if (!(g instanceof com.vividsolutions.jts.geom.Polygon))
+            for (org.locationtech.jts.geom.Geometry g : gListClean) {
+                if (!(g instanceof org.locationtech.jts.geom.Polygon))
                     polygon = false;
-                if (!(g instanceof com.vividsolutions.jts.geom.LineString))
+                if (!(g instanceof org.locationtech.jts.geom.LineString))
                     linestring = false;
-                if (!(g instanceof com.vividsolutions.jts.geom.Point))
+                if (!(g instanceof org.locationtech.jts.geom.Point))
                     point = false;
                 if (!polygon && !linestring && !point)
                     break;
@@ -184,26 +183,26 @@ public class GmlGeoXUtils {
 
             if (point) {
                 gc = jtsFactory.createMultiPoint(gListClean.toArray(
-                        new com.vividsolutions.jts.geom.Point[gListClean
+                        new org.locationtech.jts.geom.Point[gListClean
                                 .size()]));
             } else if (linestring) {
                 gc = jtsFactory.createMultiLineString(gListClean.toArray(
-                        new com.vividsolutions.jts.geom.LineString[gListClean
+                        new org.locationtech.jts.geom.LineString[gListClean
                                 .size()]));
             } else if (polygon) {
                 gc = jtsFactory.createMultiPolygon(gListClean.toArray(
-                        new com.vividsolutions.jts.geom.Polygon[gListClean
+                        new org.locationtech.jts.geom.Polygon[gListClean
                                 .size()]));
             } else {
                 if (gListClean.size() == 1) {
-                    com.vividsolutions.jts.geom.Geometry g = gListClean.get(0);
+                    org.locationtech.jts.geom.Geometry g = gListClean.get(0);
                     if (g instanceof GeometryCollection)
                         gc = (GeometryCollection) g;
                 }
 
                 if (gc == null) {
                     gc = jtsFactory.createGeometryCollection(gListClean.toArray(
-                            new com.vividsolutions.jts.geom.Geometry[gListClean
+                            new org.locationtech.jts.geom.Geometry[gListClean
                                     .size()]));
                 }
             }
@@ -313,7 +312,7 @@ public class GmlGeoXUtils {
      * @return
      * @throws Exception
      */
-    public com.vividsolutions.jts.geom.Geometry toJTSGeometry(Geometry geom)
+    public org.locationtech.jts.geom.Geometry toJTSGeometry(Geometry geom)
             throws Exception {
 
         if (geom instanceof Surface) {
@@ -331,13 +330,13 @@ public class GmlGeoXUtils {
             if (patches.size() > 1) {
 
                 /* compute union - only supportd if all patches are polygon patches */
-                List<com.vividsolutions.jts.geom.Polygon> polygons = new ArrayList<com.vividsolutions.jts.geom.Polygon>();
+                List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<org.locationtech.jts.geom.Polygon>();
 
                 for (SurfacePatch sp : patches) {
 
                     if (sp instanceof PolygonPatch) {
 
-                        com.vividsolutions.jts.geom.Polygon p = toJTSPolygon(
+                        org.locationtech.jts.geom.Polygon p = toJTSPolygon(
                                 (PolygonPatch) sp);
 
                         polygons.add(p);
@@ -408,11 +407,11 @@ public class GmlGeoXUtils {
             @SuppressWarnings("rawtypes")
             MultiGeometry mg = (MultiGeometry) geom;
 
-            List<com.vividsolutions.jts.geom.Geometry> gList = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+            List<org.locationtech.jts.geom.Geometry> gList = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
             for (Object o : mg) {
                 Geometry geo = (Geometry) o;
-                com.vividsolutions.jts.geom.Geometry g = toJTSGeometry(geo);
+                org.locationtech.jts.geom.Geometry g = toJTSGeometry(geo);
                 gList.add(g);
             }
 
@@ -428,11 +427,11 @@ public class GmlGeoXUtils {
             @SuppressWarnings("rawtypes")
             CompositeGeometry cg = (CompositeGeometry) geom;
 
-            List<com.vividsolutions.jts.geom.Geometry> gList = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+            List<org.locationtech.jts.geom.Geometry> gList = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
             for (Object o : cg) {
                 Geometry geo = (Geometry) o;
-                com.vividsolutions.jts.geom.Geometry g = toJTSGeometry(geo);
+                org.locationtech.jts.geom.Geometry g = toJTSGeometry(geo);
                 gList.add(g);
             }
 
@@ -465,7 +464,7 @@ public class GmlGeoXUtils {
      * @return
      * @throws Exception
      */
-    public com.vividsolutions.jts.geom.Geometry toJTSGeometry(ANode node)
+    public org.locationtech.jts.geom.Geometry toJTSGeometry(ANode node)
             throws Exception {
 
         if (node == null) {
@@ -481,7 +480,7 @@ public class GmlGeoXUtils {
         }
     }
 
-    public com.vividsolutions.jts.geom.Geometry toJTSGeometry(Object o)
+    public org.locationtech.jts.geom.Geometry toJTSGeometry(Object o)
             throws Exception {
 
         if (o == null) {
@@ -494,10 +493,10 @@ public class GmlGeoXUtils {
 
             if (v.size() > 1) {
 
-                List<com.vividsolutions.jts.geom.Geometry> geoms = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+                List<org.locationtech.jts.geom.Geometry> geoms = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
                 for (Item i : v) {
-                    com.vividsolutions.jts.geom.Geometry geom = toJTSGeometry(
+                    org.locationtech.jts.geom.Geometry geom = toJTSGeometry(
                             i);
                     geoms.add(geom);
                 }
@@ -511,10 +510,10 @@ public class GmlGeoXUtils {
 
         } else if (o instanceof Object[]) {
 
-            List<com.vividsolutions.jts.geom.Geometry> geoms = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+            List<org.locationtech.jts.geom.Geometry> geoms = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
             for (Object os : (Object[]) o) {
-                com.vividsolutions.jts.geom.Geometry geom = toJTSGeometry(os);
+                org.locationtech.jts.geom.Geometry geom = toJTSGeometry(os);
                 geoms.add(geom);
             }
 
@@ -526,7 +525,7 @@ public class GmlGeoXUtils {
         }
     }
 
-    public com.vividsolutions.jts.geom.Geometry singleObjectToJTSGeometry(
+    public org.locationtech.jts.geom.Geometry singleObjectToJTSGeometry(
             Object o) throws Exception {
 
         if (o instanceof BXElem) {
@@ -550,7 +549,7 @@ public class GmlGeoXUtils {
 
                 } else if (v instanceof Jav) {
 
-                    return (com.vividsolutions.jts.geom.Geometry) ((Jav) v)
+                    return (org.locationtech.jts.geom.Geometry) ((Jav) v)
                             .toJava();
                 } else {
                     throw new IllegalArgumentException(
@@ -559,9 +558,9 @@ public class GmlGeoXUtils {
                                     + " to geometry is not supported.");
                 }
             }
-        } else if (o instanceof com.vividsolutions.jts.geom.Geometry) {
+        } else if (o instanceof org.locationtech.jts.geom.Geometry) {
 
-            return (com.vividsolutions.jts.geom.Geometry) o;
+            return (org.locationtech.jts.geom.Geometry) o;
 
         } else {
             throw new IllegalArgumentException(
@@ -659,7 +658,7 @@ public class GmlGeoXUtils {
         return GMLVersion.GML_31.getNamespace().equals(namespaceURI);
     }
 
-    public com.vividsolutions.jts.geom.Geometry emptyJTSGeometry() {
+    public org.locationtech.jts.geom.Geometry emptyJTSGeometry() {
         return jtsFactory.createGeometryCollection(null);
     }
 
@@ -669,10 +668,10 @@ public class GmlGeoXUtils {
      * @param geom
      * @return
      */
-    public List<com.vividsolutions.jts.geom.Geometry> toFlattenedJTSGeometryCollection(
-            com.vividsolutions.jts.geom.Geometry geom) {
+    public List<org.locationtech.jts.geom.Geometry> toFlattenedJTSGeometryCollection(
+            org.locationtech.jts.geom.Geometry geom) {
 
-        final List<com.vividsolutions.jts.geom.Geometry> geoms = new ArrayList<com.vividsolutions.jts.geom.Geometry>();
+        final List<org.locationtech.jts.geom.Geometry> geoms = new ArrayList<org.locationtech.jts.geom.Geometry>();
 
         if (isGeometryCollectionButNotASubtype(geom)) {
             toFlattenedJTSGeometryCollection((GeometryCollection) geom, geoms);
@@ -684,12 +683,12 @@ public class GmlGeoXUtils {
     }
 
     protected void toFlattenedJTSGeometryCollection(
-            com.vividsolutions.jts.geom.GeometryCollection geomColl,
-            List<com.vividsolutions.jts.geom.Geometry> geoms) {
+            org.locationtech.jts.geom.GeometryCollection geomColl,
+            List<org.locationtech.jts.geom.Geometry> geoms) {
 
         for (int i = 0; i < geomColl.getNumGeometries(); i++) {
 
-            com.vividsolutions.jts.geom.Geometry geom = geomColl
+            org.locationtech.jts.geom.Geometry geom = geomColl
                     .getGeometryN(i);
 
             if (isGeometryCollectionButNotASubtype(geom)) {
@@ -705,12 +704,12 @@ public class GmlGeoXUtils {
     }
 
     protected boolean isGeometryCollectionButNotASubtype(
-            com.vividsolutions.jts.geom.Geometry geom) {
+            org.locationtech.jts.geom.Geometry geom) {
 
         if (geom instanceof GeometryCollection
-                && !(geom instanceof com.vividsolutions.jts.geom.MultiPoint
-                        || geom instanceof com.vividsolutions.jts.geom.MultiLineString
-                        || geom instanceof com.vividsolutions.jts.geom.MultiPolygon)) {
+                && !(geom instanceof org.locationtech.jts.geom.MultiPoint
+                        || geom instanceof org.locationtech.jts.geom.MultiLineString
+                        || geom instanceof org.locationtech.jts.geom.MultiPolygon)) {
             return true;
         } else {
             return false;
