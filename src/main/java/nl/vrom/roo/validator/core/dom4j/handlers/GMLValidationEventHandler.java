@@ -27,7 +27,7 @@ class GMLValidationEventHandler implements GeometryValidationEventHandler {
 			this.validatorContext = validatorContext;
 			this.currentGmlId = Dom4JHelper.findGmlId(element);
 			this.currentOnderdeelName = Dom4JHelper.findPlanOnderdeel(element);
-			this.ignoreRingRotation = ignoreRingRotation;
+			this.ignoreRingRotation = false;
 		}
 		
 
@@ -168,47 +168,38 @@ class GMLValidationEventHandler implements GeometryValidationEventHandler {
 	    
 	    boolean exteriorRingOrientation( ExteriorRingOrientation evt ) {
 
-	    	if(evt.isClockwise()) {
-	    		
-				PolygonPatch patch = evt.getPatch();
-				
-		    	String errMessage = ValidatorMessageBundle.getMessage(
-		    			"validator.core.validation.geometry.exteriorRingCW", 
-		    			this.currentGmlId,
-		    			this.currentOnderdeelName,
-		    			ValidationUtil.getAffectedCoordinates(patch.getExteriorRing(), 60));
+	    	PolygonPatch patch = evt.getPatch();
+			boolean isExterior = evt.isExterior();
+		
+			if(!isExterior) {
+				String errMessage = ValidatorMessageBundle.getMessage(
+						"validator.core.validation.geometry.exteriorRingCW",
+						this.currentGmlId,
+						this.currentOnderdeelName,
+						ValidationUtil.getAffectedCoordinates(patch.getExteriorRing(), 60));
+				this.validatorContext.addError(errMessage);
+			}
 
-		    	this.validatorContext.addError(errMessage);
-		    	
-				return false;
-	    	}
-	    	else {
-	    		return true;
-	    	}
-	    	
+			return isExterior;
 	    }
 	    
 		boolean interiorRingOrientation( InteriorRingOrientation evt ) {
 
-	    	if(evt.isClockwise()) {
-	    		return true;
-	    	}
-	    	else {
-				evt.getGeometryParticleHierarchy();
-				PolygonPatch patch = evt.getPatch();
-				int ringIdx = evt.getRingIdx();
+	    	PolygonPatch patch = evt.getPatch();
+			boolean isInterior = evt.isInterior();
 
+			if(!isInterior) {
+				int idx = evt.getRingIdx();
 				String errMessage = ValidatorMessageBundle.getMessage(
-		    			"validator.core.validation.geometry.interiorRingCCW", 
-		    			this.currentGmlId,
-		    			this.currentOnderdeelName,
-		    			ValidationUtil.getAffectedCoordinates(patch.getInteriorRings().get(ringIdx), 60),
-		    			ringIdx);
+						"validator.core.validation.geometry.interiorRingCCW",
+						this.currentGmlId,
+						this.currentOnderdeelName,
+						ValidationUtil.getAffectedCoordinates(patch.getInteriorRings().get(idx), 60),
+						idx);
+				this.validatorContext.addError(errMessage);
+			}
 
-	    		this.validatorContext.addError(errMessage);
-				
-				return false;
-	    	}
+			return isInterior;
 		}
 		
 //		boolean interiorRingIntersectsExterior( InteriorRingIntersectsExterior evt) {
@@ -376,4 +367,3 @@ class GMLValidationEventHandler implements GeometryValidationEventHandler {
 //			return coordinatesText;
 //		}
 	}
-

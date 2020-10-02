@@ -153,7 +153,7 @@
       </message>
       <message>
         <type>ERROR</type>
-        <text>Invalid polygon. Outer ring of polygon is clockwise within element Surface, (gml:id: s8 with coordinates: LINESTRING (0.000000 0.000000,0.000000 2.000000,0.000000 2.0...)</text>
+        <text>Invalid polygon. Outer ring of polygon has an orientation incompatible with the specified CRS within element Surface, (gml:id: s8 with coordinates: LINESTRING (0.000000 0.000000,0.000000 2.000000,0.000000 2.0...)</text>
       </message>
     </messages>
   </test>
@@ -167,7 +167,7 @@
       </message>
       <message>
         <type>ERROR</type>
-        <text>Invalid polygon. Inner ring of polygon is counterclockwise within element Surface, (gml:id: s9 with coordinates: LINESTRING (1.000000 1.000000,2.000000 1.000000,2.000000 1.0...)</text>
+        <text>Invalid polygon. Inner ring of polygon has an orientation incompatible with the specified CRS within element Surface, (gml:id: s9 with coordinates: LINESTRING (1.000000 1.000000,2.000000 1.000000,2.000000 1.0...)</text>
       </message>
     </messages>
   </test>
@@ -229,6 +229,44 @@
       <message>
         <type>ERROR</type>
         <text>Invalid surface (gml:id: s14). The patches of the surface are not connected.</text>
+      </message>
+    </messages>
+  </test>
+  <test>
+    <isValid>true</isValid>
+    <result>VVV</result>
+    <messages/>
+  </test>
+  <test>
+    <isValid>false</isValid>
+    <result>FVV</result>
+    <messages>
+      <message>
+        <type>NOTICE</type>
+        <text>Detected GML standard version: GML3.2.</text>
+      </message>
+      <message>
+        <type>ERROR</type>
+        <text>Invalid polygon. Outer ring of polygon has an orientation incompatible with the specified CRS within element Surface, (gml:id: s16 with coordinates: LINESTRING (0.000000 2.000000,1.000000 1.000000,1.000000 -1....)</text>
+      </message>
+    </messages>
+  </test>
+  <test>
+    <isValid>true</isValid>
+    <result>VVV</result>
+    <messages/>
+  </test>
+  <test>
+    <isValid>false</isValid>
+    <result>FVV</result>
+    <messages>
+      <message>
+        <type>NOTICE</type>
+        <text>Detected GML standard version: GML3.2.</text>
+      </message>
+      <message>
+        <type>ERROR</type>
+        <text>Invalid polygon. Outer ring of polygon has an orientation incompatible with the specified CRS within element Surface, (gml:id: s18 with coordinates: LINESTRING (0.000000 2.000000,-1.000000 -2.000000,1.000000 -...)</text>
       </message>
     </messages>
   </test>
