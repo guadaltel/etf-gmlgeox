@@ -360,9 +360,9 @@ public class SecondaryGeometryElementValidationHandler implements ElementHandler
             } else {
 
                 /* Compute JTS geometry from the surface with multiple patches. An exception will be thrown if the surface does not consist of polygon patches. If the surface is connected then the resulting geometry is a JTS Polygon (because a union of all patches has been created). Otherwise the surface is not connected. */
-                com.vividsolutions.jts.geom.Geometry g = geoutils.toJTSGeometry(geom);
+                org.locationtech.jts.geom.Geometry g = geoutils.toJTSGeometry(geom);
 
-                if (g instanceof com.vividsolutions.jts.geom.Polygon) {
+                if (g instanceof org.locationtech.jts.geom.Polygon) {
 
                     return true;
 

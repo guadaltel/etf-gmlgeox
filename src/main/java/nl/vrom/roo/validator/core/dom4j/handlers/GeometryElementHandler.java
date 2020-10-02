@@ -1,9 +1,9 @@
 package nl.vrom.roo.validator.core.dom4j.handlers;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.operation.valid.IsValidOp;
-import com.vividsolutions.jts.operation.valid.TopologyValidationError;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.operation.valid.IsValidOp;
+import org.locationtech.jts.operation.valid.TopologyValidationError;
 import nl.vrom.roo.validator.core.ValidatorContext;
 import nl.vrom.roo.validator.core.ValidatorMessageBundle;
 import nl.vrom.roo.validator.core.dom4j.Dom4JHelper;
@@ -374,7 +374,7 @@ public class GeometryElementHandler implements ElementHandler {
 	// }
 	//
 
-	private void handleGMLJtsValidation(com.vividsolutions.jts.geom.Geometry jtsGeometry, Element element) {
+	private void handleGMLJtsValidation(org.locationtech.jts.geom.Geometry jtsGeometry, Element element) {
 
 		IsValidOp ivo = new IsValidOp(jtsGeometry);
 		// Optimization: ivo.isValid() is the same as topError==null. Otherwise

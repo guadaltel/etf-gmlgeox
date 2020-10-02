@@ -296,7 +296,7 @@ extends org.basex.query.QueryModule</pre>
 </td>
 </tr>
 <tr id="i11" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#getGeometry-java.lang.Object-java.lang.Object-">getGeometry</a></span>(java.lang.Object&nbsp;id,
            java.lang.Object&nbsp;defgeom)</code>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
@@ -305,15 +305,15 @@ extends org.basex.query.QueryModule</pre>
 </td>
 </tr>
 <tr id="i12" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#getOrCacheGeometry-java.lang.Object-java.lang.Object-">getOrCacheGeometry</a></span>(java.lang.Object&nbsp;id,
                   java.lang.Object&nbsp;defgeom)</code>
 <div class="block">Retrieve the geometry of an item as a JTS geometry.</div>
 </td>
 </tr>
 <tr id="i13" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#holes-com.vividsolutions.jts.geom.Geometry-">holes</a></span>(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</code>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#holes-org.locationtech.jts.geom.Geometry-">holes</a></span>(org.locationtech.jts.geom.Geometry&nbsp;geom)</code>
 <div class="block">Identifies the holes contained in the given geometry (can be a Polygon,
  MultiPolygon, or any other JTS geometry) and returns them as a JTS
  geometry.</div>
@@ -342,7 +342,7 @@ extends org.basex.query.QueryModule</pre>
 </td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#intersection-java.lang.Object-java.lang.Object-">intersection</a></span>(java.lang.Object&nbsp;geometry1,
             java.lang.Object&nbsp;geometry2)</code>
 <div class="block">Computes the intersection between the first and the second geometry.</div>
@@ -393,7 +393,7 @@ extends org.basex.query.QueryModule</pre>
 </tr>
 <tr id="i23" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#isEmpty-com.vividsolutions.jts.geom.Geometry-">isEmpty</a></span>(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#isEmpty-org.locationtech.jts.geom.Geometry-">isEmpty</a></span>(org.locationtech.jts.geom.Geometry&nbsp;geom)</code>&nbsp;</td>
 </tr>
 <tr id="i24" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
@@ -430,7 +430,7 @@ extends org.basex.query.QueryModule</pre>
 </td>
 </tr>
 <tr id="i29" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#parseGeometry-org.basex.query.value.Value-">parseGeometry</a></span>(org.basex.query.value.Value&nbsp;v)</code>&nbsp;</td>
 </tr>
 <tr id="i30" class="altColor">
@@ -498,11 +498,11 @@ extends org.basex.query.QueryModule</pre>
 </td>
 </tr>
 <tr id="i39" class="rowColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#union-java.lang.Object-">union</a></span>(java.lang.Object&nbsp;arg)</code>&nbsp;</td>
 </tr>
 <tr id="i40" class="altColor">
-<td class="colFirst"><code>com.vividsolutions.jts.geom.Geometry</code></td>
+<td class="colFirst"><code>org.locationtech.jts.geom.Geometry</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#union-java.lang.Object-java.lang.Object-">union</a></span>(java.lang.Object&nbsp;arg1,
      java.lang.Object&nbsp;arg2)</code>&nbsp;</td>
 </tr>
@@ -1077,7 +1077,7 @@ extends org.basex.query.QueryModule</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>parseGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;parseGeometry(org.basex.query.value.Value&nbsp;v)
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;parseGeometry(org.basex.query.value.Value&nbsp;v)
                                                    throws org.basex.query.QueryException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1422,7 +1422,7 @@ extends org.basex.query.QueryModule</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;union(java.lang.Object&nbsp;arg1,
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;union(java.lang.Object&nbsp;arg1,
                                                   java.lang.Object&nbsp;arg2)
                                            throws org.basex.query.QueryException</pre>
 <dl>
@@ -1437,7 +1437,7 @@ extends org.basex.query.QueryModule</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>union</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;union(java.lang.Object&nbsp;arg)
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;union(java.lang.Object&nbsp;arg)
                                            throws org.basex.query.QueryException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -1445,13 +1445,13 @@ extends org.basex.query.QueryModule</pre>
 </dl>
 </li>
 </ul>
-<a name="isEmpty-com.vividsolutions.jts.geom.Geometry-">
+<a name="isEmpty-org.locationtech.jts.geom.Geometry-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>isEmpty</h4>
-<pre>public&nbsp;boolean&nbsp;isEmpty(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</pre>
+<pre>public&nbsp;boolean&nbsp;isEmpty(org.locationtech.jts.geom.Geometry&nbsp;geom)</pre>
 </li>
 </ul>
 <a name="isClosed-java.lang.Object-">
@@ -1515,13 +1515,13 @@ extends org.basex.query.QueryModule</pre>
 </dl>
 </li>
 </ul>
-<a name="holes-com.vividsolutions.jts.geom.Geometry-">
+<a name="holes-org.locationtech.jts.geom.Geometry-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>holes</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;holes(com.vividsolutions.jts.geom.Geometry&nbsp;geom)</pre>
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;holes(org.locationtech.jts.geom.Geometry&nbsp;geom)</pre>
 <div class="block">Identifies the holes contained in the given geometry (can be a Polygon,
  MultiPolygon, or any other JTS geometry) and returns them as a JTS
  geometry. If holes were found a union is built, to ensure that the result
@@ -1625,7 +1625,7 @@ extends org.basex.query.QueryModule</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>intersection</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;intersection(java.lang.Object&nbsp;geometry1,
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;intersection(java.lang.Object&nbsp;geometry1,
                                                          java.lang.Object&nbsp;geometry2)
                                                   throws org.basex.query.QueryException</pre>
 <div class="block">Computes the intersection between the first and the second geometry.
@@ -1822,7 +1822,7 @@ public&nbsp;void&nbsp;index(java.lang.Object&nbsp;pre,
 <li class="blockList">
 <h4>getGeometry</h4>
 <pre>@Deprecated
-public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;getGeometry(java.lang.Object&nbsp;id,
+public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;getGeometry(java.lang.Object&nbsp;id,
                                                                     java.lang.Object&nbsp;defgeom)
                                                              throws org.basex.query.QueryException</pre>
 <div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">renamed method to <a href="../../../../de/interactive_instruments/etf/bsxm/GmlGeoX.html#getOrCacheGeometry-java.lang.Object-java.lang.Object-"><code>getOrCacheGeometry(Object, Object)</code></a></span></div>
@@ -1852,7 +1852,7 @@ public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;getGeometry(java.lang.Obje
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getOrCacheGeometry</h4>
-<pre>public&nbsp;com.vividsolutions.jts.geom.Geometry&nbsp;getOrCacheGeometry(java.lang.Object&nbsp;id,
+<pre>public&nbsp;org.locationtech.jts.geom.Geometry&nbsp;getOrCacheGeometry(java.lang.Object&nbsp;id,
                                                                java.lang.Object&nbsp;defgeom)
                                                         throws org.basex.query.QueryException</pre>
 <div class="block">Retrieve the geometry of an item as a JTS geometry. First try the cache
