@@ -68,7 +68,11 @@ public final class GmlGeoXTest extends QueryTest {
             + "let $surface11 := $surfaces[@gml:id = 's11']\n"
             + "let $surface12 := $surfaces[@gml:id = 's12']\n"
             + "let $surface13 := $surfaces[@gml:id = 's13']\n"
-            + "let $surface14 := $surfaces[@gml:id = 's14']\n";
+            + "let $surface14 := $surfaces[@gml:id = 's14']\n"
+            + "let $surface15 := $surfaces[@gml:id = 's15']\n"
+            + "let $surface16 := $surfaces[@gml:id = 's16']\n"
+            + "let $surface17 := $surfaces[@gml:id = 's17']\n"
+            + "let $surface18 := $surfaces[@gml:id = 's18']\n";
 
     /** Constructor. */
     static {
@@ -373,8 +377,8 @@ public final class GmlGeoXTest extends QueryTest {
 
                 {"Validation - ring orientation", strings("FSS", "FSS"),
                         COMMON_QUERY_PART + "\n" + "return (\n"
-                                + "  ggeo:validate($surface8,'100'), (: FSS - exterior ring is oriented clockwise :) \n"
-                                + "  ggeo:validate($surface9,'100') (: FSS - interior ring is oriented counter-clockwise :)"
+                                + " ggeo:validate($surface8,'100'), (: FSS - exterior ring is oriented clockwise :) \n"
+                                + " ggeo:validate($surface9,'100') (: FSS - interior ring is oriented counter-clockwise :)"
                                 + ")"},
 
                 {"Validation - repetition ", strings("VVF", "VVF", "VVV"),
@@ -403,6 +407,14 @@ public final class GmlGeoXTest extends QueryTest {
                                 + "  ggeo:validate($surface14) (: VFV - patch 1 is connected to patch 2, patch 3 is connected to patch 4, but patches 1/2 are not connected to patches 3/4 :) \n"
                                 + ")"},
 
+                {"Validation - crs orientation", strings("VSS", "FSS", "VSS", "FSS"),
+                        COMMON_QUERY_PART + "\n" + "return (\n"
+                                + " ggeo:validate($surface15,'100'), (: VSS - exterior ring is oriented counter-clockwise with right handed CRS:)"
+                                + " ggeo:validate($surface16,'100'), (: FSS - exterior ring is oriented clockwise with right handed CRS:)"
+                                + " ggeo:validate($surface17,'100'), (: VSS - exterior ring is oriented clockwise with left handed CRS:)"
+                                + " ggeo:validate($surface18,'100') (: FSS - exterior ring is oriented counter-clockwise with left handed CRS:)"
+                                + ")"},
+
                 {"Map use ", strings("MULTIPOINT ((0 0), (1 1))"),
                         COMMON_QUERY_PART + "\n"
                                 + "let $multiplePoints := ($point3,$point2,$point1)\r\n"
@@ -424,7 +436,7 @@ public final class GmlGeoXTest extends QueryTest {
                                 + "let $geoms := for $g in $geom return ggeo:getGeometry($g/@gml:id,$g)\n"
                                 + "return (\n"
                                 + "  count(ggeo:search(4,2.4,8,8.5))=12,\n"
-                                + "  count(ggeo:search(0,0,1,1))=11,\n"
+                                + "  count(ggeo:search(0,0,1,1))=15,\n"
                                 + "  contains(ggeo:search(0,0,1,1)[@gml:id='p1']/gml:pos[1],'1 1'),\n"
                                 + "  ggeo:isWithin(ggeo:getGeometry('c1',$geom[@gml:id='c1']),$geoms,false()),\n"
                                 + "  number(ggeo:envelope($geom[1])[1])=1\n"
