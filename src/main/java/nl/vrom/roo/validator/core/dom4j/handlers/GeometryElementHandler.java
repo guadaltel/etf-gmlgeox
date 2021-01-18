@@ -167,7 +167,8 @@ public class GeometryElementHandler implements ElementHandler {
 		}
 
 		try {
-			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(element.asXML().getBytes());
+			String elementXML = element.asXML();
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(elementXML.getBytes());
 
 			XMLStreamReader xmlStream = XMLInputFactory.newInstance().createXMLStreamReader(byteArrayInputStream);
 
@@ -182,13 +183,30 @@ public class GeometryElementHandler implements ElementHandler {
 			}
 
 			GMLStreamReader gmlStream = GMLInputFactory.createGMLStreamReader(gmlVersion, xmlStream);
-			
+
 			ICRS defaultCRS = null;
 			if (defaultSrsName != null) {
 				defaultCRS = CRSManager.getCRSRef(defaultSrsName);
 			}
 						
 			gmlStream.setDefaultCRS(defaultCRS);
+
+			// GML pre-validation: check tha srsDimension is in the right tag and its value its compatible with the declared SRS
+			GMLPrevalidator gmlPrevalidator = new GMLPrevalidator();
+			GMLPrevalidator.PrevalidationResult prevalidationResult = gmlPrevalidator.prevalidate(
+				XMLInputFactory.newInstance().createXMLStreamReader(new ByteArrayInputStream(elementXML.getBytes())),defaultCRS);
+			if (prevalidationResult != GMLPrevalidator.PrevalidationResult.PREVALIDATION_OK) {
+				switch (prevalidationResult) {
+					case PARSE_ERROR:
+						throw new Exception (ValidatorMessageBundle.getMessage("validator.core.prevalidation.parse-error"));
+					case BAD_TAG_FOR_SRSDIMENSION:
+						throw new Exception (ValidatorMessageBundle.getMessage("validator.core.prevalidation.bad-tag-srsdimension"));
+					case WRONG_SRS_DIMENSION:
+						throw new Exception (ValidatorMessageBundle.getMessage("validator.core.prevalidation.wrong-srs-dimension"));
+					default:
+						throw new Exception (ValidatorMessageBundle.getMessage("validator.core.validation.geometry.unknown-exception"));
+				}
+			}
 
 			org.deegree.geometry.Geometry geom = gmlStream.readGeometry();
 
